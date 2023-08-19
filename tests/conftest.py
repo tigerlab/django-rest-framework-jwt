@@ -53,9 +53,8 @@ def pytest_configure():
         )
 
     try:
-        if django.VERSION >= (1, 8):
-            # django-oauth2-provider does not support Django1.8
-            raise ImportError
+        # django-oauth2-provider does not support Django1.8
+        raise ImportError
         import provider  # NOQA
     except ImportError:
         pass

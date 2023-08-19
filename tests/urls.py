@@ -1,7 +1,8 @@
-from django.conf.urls import url
+from django.re_paths import re_path
 from django.http import HttpResponse
 from rest_framework import permissions
 from rest_framework.views import APIView
+
 try:
     from rest_framework_oauth.authentication import OAuth2Authentication
 except ImportError:
@@ -18,23 +19,29 @@ class MockView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        return HttpResponse('mockview-get')
+        return HttpResponse("mockview-get")
 
     def post(self, request):
-        return HttpResponse('mockview-post')
+        return HttpResponse("mockview-post")
 
 
-urlpatterns = [
-    url(r'^auth-token/$', views.obtain_jwt_token),
-    url(r'^auth-token-refresh/$', views.refresh_jwt_token),
-    url(r'^auth-token-verify/$', views.verify_jwt_token),
-
-    url(r'^jwt/$', MockView.as_view(
-        authentication_classes=[JSONWebTokenAuthentication])),
-    url(r'^jwt-oauth2/$', MockView.as_view(
-        authentication_classes=[
-            JSONWebTokenAuthentication, OAuth2Authentication])),
-    url(r'^oauth2-jwt/$', MockView.as_view(
-        authentication_classes=[
-            OAuth2Authentication, JSONWebTokenAuthentication])),
+re_pathpatterns = [
+    re_path(r"^auth-token/$", views.obtain_jwt_token),
+    re_path(r"^auth-token-refresh/$", views.refresh_jwt_token),
+    re_path(r"^auth-token-verify/$", views.verify_jwt_token),
+    re_path(
+        r"^jwt/$", MockView.as_view(authentication_classes=[JSONWebTokenAuthentication])
+    ),
+    re_path(
+        r"^jwt-oauth2/$",
+        MockView.as_view(
+            authentication_classes=[JSONWebTokenAuthentication, OAuth2Authentication]
+        ),
+    ),
+    re_path(
+        r"^oauth2-jwt/$",
+        MockView.as_view(
+            authentication_classes=[OAuth2Authentication, JSONWebTokenAuthentication]
+        ),
+    ),
 ]
